@@ -1,0 +1,23 @@
+@media (min-width:1201px){
+    .result{
+        margin:0 auto;
+    }
+}
+@media (max-width:1200px){
+    body{
+        overflow:scroll;
+    }
+    .result{
+        margin:0 50px;
+    }
+}
+body{
+    min-width: 1050px;
+    height:1200px;
+}
+ul{
+    padding-left:0px;
+}
+li{
+    list-style-type:none;
+}
