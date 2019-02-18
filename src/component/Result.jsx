@@ -1,10 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { createStore } from 'redux';
 import {Store} from '../reducer.js';
 import {searchMusic} from './header.jsx';
 import '../css/result.scss';
 
+//搜索结果表头
 export class ResultTab extends React.Component{
     render(){
         return(
@@ -18,6 +17,8 @@ export class ResultTab extends React.Component{
         )
     }
 }
+
+//搜索结果的单个歌曲条目
 class SongItem extends React.Component{
     constructor(props){
         super(props);
@@ -51,6 +52,8 @@ class SongItem extends React.Component{
         )
     }
 }
+
+//搜索结果容器
 export class SongBox extends React.Component{
     constructor(props){
         super(props);
@@ -74,7 +77,6 @@ export class SongBox extends React.Component{
                 var second=parseInt((item.duration%60000)/1000);
                 return <SongItem  clickPlay={this.songPlay.bind(this,item.id)} key={item.id} id={item.id} song_name={item.name} song_single={item.artists[0].name} song_album={item.album.name} song_time={(minute<10?('0'+minute):minute)+':'+(second<10?('0'+second):second)} />
             }));
-        console.log(song_list);
             return(
         <div className='song-box'>
             <div className="btn-group song-opera-box" role="group" aria-label="...">
@@ -111,6 +113,7 @@ export class SongBox extends React.Component{
     }
 }
 
+//换页组件
 class Page extends React.Component{
     constructor(props){
         super(props);
@@ -123,6 +126,7 @@ class Page extends React.Component{
         this.ahead=this.ahead.bind(this);
     }
     
+    //换页选项卡初始化，页数大于5时只显示前4页的选项卡
     ahead(k){
         var page_list=[],
             count=Store.getState().count/20;
@@ -156,12 +160,11 @@ class Page extends React.Component{
         }   
         return page_list;
     }
+
     clickPage(e){
         var index=parseInt(e.target.attributes['index'].value);
-        //var index=e;
         var list=[],
                 count=Store.getState().count/20;
-        console.log('index'+index);
         /*ajax请求*/
         searchMusic((index-1)*20,Store.getState().keyword).then(function(response){
             Store.dispatch({type:'CHANGE-PAGE',result:response.result.result.songs})

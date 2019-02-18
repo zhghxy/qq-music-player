@@ -1,6 +1,9 @@
+/**
+ * @file 点击播放按钮后弹出此页面播放音乐
+ */
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from 'redux';
+
 
 var id;
 window.addEventListener('storage',function(event){

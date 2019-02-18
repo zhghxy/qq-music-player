@@ -1,10 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { createStore } from 'redux';
 import $ from 'jquery';
 import {Store} from '../reducer.js';
 import '../css/header.scss';
 
+/**
+ * 向服务端发送搜索请求
+ * @param {Number} offset 结果页面偏移数
+ * @param {String} el     搜索关键字
+ */
 export const searchMusic=function(offset,el){
     const promise=new Promise(function(resolve,reject){
         const client=new XMLHttpRequest();
@@ -25,7 +28,6 @@ export const searchMusic=function(offset,el){
     return promise;
   }
   const handleSearch=(e,offset=0)=>{ 
-      
     var text=e.target.previousSibling.value;
    console.log(text);
     if(text!=''){
@@ -39,7 +41,6 @@ export const searchMusic=function(offset,el){
             console.log(error);
         })
     }
-  
   }
 
 export class Search extends React.Component{
@@ -57,7 +58,11 @@ export class Search extends React.Component{
     componentDidMount(){
         this.isExtend();
     }
+
+    //搜索栏伸缩效果
     isExtend(){
+
+        //页面宽度小于1080px时搜索栏缩短，并且鼠标悬停时可以扩展
         if(document.body.clientWidth<1080)
           {  this.setState({
                 extend:false,
@@ -70,10 +75,8 @@ export class Search extends React.Component{
                 notEnough:false
             })
         }
-        //console.log(document.body.clientWidth);
     }
     handleOver(){
-        //console.log('over');
         if(!this.state.extend){
             setTimeout(this.setState({
                 extend:true
@@ -82,7 +85,6 @@ export class Search extends React.Component{
         }
     }
     handleLeave(){
-        //console.log('leave');
         if(this.state.notEnough&&this.state.extend){
             this.setState({
                 extend:false
@@ -104,6 +106,7 @@ export class Search extends React.Component{
         </div>)
     }
 }
+
 export class TopHeader extends React.Component{
     constructor(props){
         super(props);
@@ -196,6 +199,7 @@ export class MidHeader extends React.Component{
     }
 }
 
+//顶部固定搜索栏
 export class FixTopSearch extends React.Component{
     constructor(props){
         super(props);
@@ -207,7 +211,10 @@ export class FixTopSearch extends React.Component{
     componentDidMount(){
         window.onscroll=this.handleScroll;
     }
+
     handleScroll(){
+
+        //向下滑动出现顶部搜索栏
         if($(window).scrollTop()>200){
             this.setState({
                 show:true
